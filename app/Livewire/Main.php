@@ -8,11 +8,12 @@ class Main extends Component
 {
     public $welcome = "Hola Oscar, aquí tienes tus recados";
 
-    protected $listeners = ['taskSaved'];
+    protected $listeners = ['taskSaved' => 'taskSaved'];
                 //esucha el evento
-    public function taskSaved() //ejecuta este metodo
+    public function taskSaved($message) //ejecuta este metodo
     {
-        session()->flash('message', 'Tarea guardada con éxito!'); // que crea el mensaje
+        dd('hshshs');
+        session()->flash('message', $message); // que crea el mensaje
     }
     
     public function render()

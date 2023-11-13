@@ -32,15 +32,21 @@ class Task extends Component
         );
     }
 
+    // public function edit (TaskModel $task){
+    //     $this->task = $task;
+    // }
+
     public function save()
     {
         $this->validate();
 
         TaskModel::create(['text' => $this->taskText]);
 
-        $this->emitUp('taskSaved'); 
-            //metodo    evento
+        $this->emitUp('taskSaved', 'Recado guardado correctamente!'); 
+        //metodo    evento
+
         $this->loadTasksData(); // Actualizar la lista de tareas después de guardar
+
     }
 
     public function render()
