@@ -8,14 +8,18 @@ class Main extends Component
 {
     public $welcome = "Hola Oscar, aquí tienes tus recados";
 
-    protected $listeners = ['taskSaved' => 'taskSaved'];
-                //esucha el evento
-    public function taskSaved($message) //ejecuta este metodo
+    protected $listeners = ['taskSaved' => 'taskSaved', 'taskDeleted' => 'taskDeleted'];
+
+    public function taskSaved($message)
     {
-        dd('hshshs');
-        session()->flash('message', $message); // que crea el mensaje
+        session()->flash('message', $message);
     }
-    
+
+    public function taskDeleted($message)
+    {
+        session()->flash('message', $message);
+    }
+
     public function render()
     {
         return view('livewire.main');

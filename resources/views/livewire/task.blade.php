@@ -5,7 +5,15 @@
             @error("taskText") <div class="mt-1 text-red-600 text-sm">{{$message}}</div>@enderror
         </div>
         <button type="submit" class="bg-indigo-700 text-white font-bold w-full rounded shadow p-2" wire:loading.attr="disabled">Guardar</button>
+        
+        @if (session()->has('message'))
+            <h3 class="bg-green-400 font-bold p-2 w-full rounded text-center text-sm text-white mt-2">{{ session('message') }}</h3>
+        @endif
     </form>
+
+    @if ($editing)
+        Editando tarea: {{ $editing->text }}
+    @endif
 
     <table class="shadow-md">
         <thead>
@@ -17,17 +25,16 @@
         </thead>
 
         <tbody class="text-gray-600">
-            @forelse ($tasks as $task)
-            <tr class="border-b border-gray-200">
-                <td class="px-4 py-2"><input type="checkbox"></td>
-                <td class="px-4 py-2">{{$task->text}}</td>
+            @foreach ($tasks as $task)
+            <tr class="border-b border-gray-200 {{$task->done ? 'bg-green-200' : ''}}">
+                
+                <td class="px-4 py-2"><input type="checkbox" wire:click="done({{$task->id}})" {{$task->done ? 'checked' : ''}}></td>
+                <td class="px-4 py-2 {{$task->done ? 'line-through' : ''}} "> {{$task->text}}</td>
                 <td class="px-4 py-2">
-                    <button wire:click="edit({{$task->id}})" type="button" class="bg-indigo-400 px-2 py-1 text-white text-xs rounded">Editar</button>
-                    <button type="button" class="bg-red-500 px-2 py-1 text-white text-xs rounded">Eliminar</button>
+                    <button wire:click="edit({{$task}})" type="button" class="bg-indigo-400 px-2 py-1 text-white text-xs rounded">Editar</button>
+                    <button wire:click="delete({{$task->id}})" type="button" class="bg-red-500 px-2 py-1 text-white text-xs rounded">Eliminar</button>
                 </td>
-            </tr>
-            @empty
-                <h3>No tienes más recados</h3>
-            @endforelse
+            </tr> 
+            @endforeach
     </table>
 </div>
